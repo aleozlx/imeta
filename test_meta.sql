@@ -3,6 +3,7 @@ CREATE TABLE partitions (
     name VARCHAR(32) UNIQUE NOT NULL,
     labels VARCHAR[] NOT NULL,
     created_on TIMESTAMP NOT NULL,
+    reference TEXT,
     summary BOOLEAN NOT NULL
 );
 
