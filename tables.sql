@@ -15,4 +15,4 @@ CREATE TABLE frame (
     partitions hstore
 );
 
-CREATE INDEX idx_frame on frame USING GIN (partitions);
+CREATE INDEX idx_frame ON frame USING GIN (partitions);
