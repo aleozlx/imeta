@@ -8,4 +8,4 @@ SELECT count(*) FROM frame;
 SELECT count(*) FROM frame WHERE partitions ? 'part1';
 
 -- Count total active records in "part1"
-SELECT count(*) FROM frame where partitions ? 'part1' and partitions ? 'active';
+SELECT count(*) FROM frame WHERE partitions ? 'part1' AND partitions ? 'active';
