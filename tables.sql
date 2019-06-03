@@ -6,7 +6,8 @@ CREATE TABLE partitions (
     labels VARCHAR[] NOT NULL,
     created_on TIMESTAMP NOT NULL,
     reference TEXT,
-    summary BOOLEAN NOT NULL
+    summary BOOLEAN NOT NULL,
+    impl_version INT
 );
 
 CREATE TABLE frame (
