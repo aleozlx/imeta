@@ -1,3 +1,5 @@
+CREATE EXTENSION hstore;
+
 CREATE TABLE partitions (
     id SERIAL PRIMARY KEY,
     name VARCHAR(32) UNIQUE NOT NULL,
