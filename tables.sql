@@ -7,9 +7,7 @@ CREATE TABLE partitions (
     created_on TIMESTAMP NOT NULL,
     reference TEXT,
     summary BOOLEAN NOT NULL,
-    impl_version INT,
-      -- 1: part => 1
-      -- 2: part_namespace => part
+    impl_version INT -- v1: hstore tagging {"part" => 1}, v2: hstore enum {"namespace"=>"part"}
 );
 
 CREATE TABLE frame (
