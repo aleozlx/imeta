@@ -7,7 +7,9 @@ CREATE TABLE partitions (
     created_on TIMESTAMP NOT NULL,
     reference TEXT,
     summary BOOLEAN NOT NULL,
-    impl_version INT
+    impl_version INT,
+      -- 1: part => 1
+      -- 2: part_namespace => part
 );
 
 CREATE TABLE frame (
