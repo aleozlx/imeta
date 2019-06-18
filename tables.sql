@@ -20,10 +20,10 @@ CREATE TABLE frame (
 
 CREATE INDEX idx_frame ON frame USING GIN (partitions);
 
--- Optional table(s)
+-- Optional tables
 
 CREATE TABLE class_label (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY, -- do not use a foreign key to reference this optional table because it could be NULL or N/A
     label_namespace TEXT, -- namespace for multiple datasets
     label_name TEXT NOT NULL, -- name of the label
     label_name_long TEXT, -- long name of the label
