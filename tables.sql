@@ -31,16 +31,17 @@ CREATE TABLE class_label (
 );
 
 CREATE TABLE xval_metrics (
+    model_id TEXT NOT NULL, -- a unique name/id of the model e.g. res50.5fold::A
     subset_id INT NOT NULL, -- can be class_label if the concept applies
     partition_name TEXT NOT NULL, -- aka namespace of the fold name
     fold_name TEXT NOT NULL,
     metrics hstore, -- denormalized metrics
-    PRIMARY KEY (subset_id, partition_name, fold_name)
+    PRIMARY KEY (model_id, subset_id, partition_name, fold_name)
 );
 
 CREATE TABLE inference (
     frame_id INT REFERENCES frame(id) NOT NULL, -- a reference to the frame
-    model_id TEXT NOT NULL, -- a unique name/id of the model
+    model_id TEXT NOT NULL, -- a unique name/id of the model e.g. res50.5fold::A
     prediction hstore NOT NULL, -- all outputs from model inference
     PRIMARY KEY (frame_id, model_id)
 );
