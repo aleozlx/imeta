@@ -24,8 +24,23 @@ CREATE INDEX idx_frame ON frame USING GIN (partitions);
 
 CREATE TABLE class_label (
     id SERIAL PRIMARY KEY,
-    label_namespace TEXT, -- group related labels
-    label_name VARCHAR(32) NOT NULL, -- name of the label
+    label_namespace TEXT, -- namespace for multiple datasets
+    label_name TEXT NOT NULL, -- name of the label
     label_name_long TEXT, -- long name of the label
     label_id INT NOT NULL -- label id
+);
+
+CREATE TABLE xval_metrics (
+    subset_id INT NOT NULL, -- can be class_label if the concept applies
+    partition_name TEXT NOT NULL, -- aka namespace of the fold name
+    fold_name TEXT NOT NULL,
+    metrics hstore, -- denormalized metrics
+    PRIMARY KEY (subset_id, partition_name, fold_name)
+);
+
+CREATE TABLE inference (
+    frame_id INT REFERENCES frame(id) NOT NULL, -- a reference to the frame
+    model_id TEXT NOT NULL, -- a unique name/id of the model
+    prediction hstore NOT NULL, -- all outputs from model inference
+    PRIMARY KEY (frame_id, model_id)
 );
