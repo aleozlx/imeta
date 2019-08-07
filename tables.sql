@@ -1,4 +1,4 @@
-CREATE TABLE partitions ( -- consider renaming to partition_ns
+CREATE TABLE partition_ns (
     id SERIAL PRIMARY KEY,
     name VARCHAR(32) UNIQUE NOT NULL, -- name of the partition namespace
     labels VARCHAR[] NOT NULL, -- names of the partitions that exist in the namespace
@@ -17,6 +17,11 @@ CREATE TABLE frame (
 );
 
 CREATE INDEX idx_frame ON frame USING GIN (partitions);
+
+CREATE OR REPLACE FUNCTION merge_arrays(a1 ANYARRAY, a2 ANYARRAY) RETURNS ANYARRAY as $$
+  SELECT array_agg(x ORDER BY x)
+  FROM (SELECT DISTINCT UNNEST($1 || $2) AS x) s;
+$$ LANGUAGE SQL STRICT;
 
 -- Optional tables
 
