@@ -1,5 +1,3 @@
-CREATE EXTENSION hstore;
-
 CREATE TABLE partitions ( -- consider renaming to partition_ns
     id SERIAL PRIMARY KEY,
     name VARCHAR(32) UNIQUE NOT NULL, -- name of the partition namespace
@@ -7,7 +5,7 @@ CREATE TABLE partitions ( -- consider renaming to partition_ns
     created_on TIMESTAMP NOT NULL,
     reference TEXT, -- reference to the associated data shard
     summary BOOLEAN NOT NULL, -- required to show in the summary
-    impl_version INT -- data structure impl: v1: hstore tagging {"part" => 1}, v2: hstore enum {"namespace"=>"part"}
+    impl_version INT -- data structure impl: v1: jsonb tagging {"part" => 1}, v2: jsonb enum {"namespace"=>"part"}
 );
 
 CREATE TABLE frame (
@@ -15,7 +13,7 @@ CREATE TABLE frame (
     image TEXT NOT NULL, -- image file name: use ";" to separate multiple associated images
     class_label INT, -- class label: may use binary one hot encoding in multi-label case
     ptr INT, -- index into associated data (perhaps in h5 files)
-    partitions hstore -- denormalized partitioning information
+    partitions jsonb -- denormalized partitioning information
 );
 
 CREATE INDEX idx_frame ON frame USING GIN (partitions);
@@ -35,13 +33,13 @@ CREATE TABLE xval_metrics (
     subset_id INT NOT NULL, -- can be class_label if the concept applies
     partition_name TEXT NOT NULL, -- aka namespace of the fold name
     fold_name TEXT NOT NULL,
-    metrics hstore, -- denormalized metrics
+    metrics jsonb, -- denormalized metrics
     PRIMARY KEY (model_id, subset_id, partition_name, fold_name)
 );
 
 CREATE TABLE inference (
     frame_id INT REFERENCES frame(id) NOT NULL, -- a reference to the frame
     model_id TEXT NOT NULL, -- a unique name/id of the model e.g. res50.5fold::A
-    prediction hstore NOT NULL, -- all outputs from model inference
+    prediction jsonb NOT NULL, -- all outputs from model inference
     PRIMARY KEY (frame_id, model_id)
 );
